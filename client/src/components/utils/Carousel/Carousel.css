@@ -1,0 +1,11 @@
+.picture-container {
+    display: flex;
+    padding: 0 2px;
+    z-index: -1;
+    transform: translateX(-300px);
+  }
+  
+  .moving {
+    transform: translateX(-600px);
+    transition: transform 1s ease-in;
+  }
