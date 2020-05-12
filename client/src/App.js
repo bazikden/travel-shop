@@ -14,7 +14,6 @@ import { LandingPage } from './components/LandingPage/LandingPage';
 function App() {
   const dispatch = useDispatch()
   const renderProps = useSelector(state => state.products.renderProps)
-  // const filter = renderProps.filter
 
   useEffect(() => {
     Axios.get('api/users/auth')
@@ -39,17 +38,12 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    const variables = { 
-      skip:renderProps.skip,
-      limit:renderProps.limit,
-      filter:renderProps.filter
+    const variables = {
+      skip: renderProps.skip,
+      limit: renderProps.limit,
+      filter: renderProps.filter
     }
-    // console.log(renderProps.filter)
-    getAllProducts(variables)
-  }, [renderProps,getAllProducts])
 
-
-  function getAllProducts (variables){
     Axios.post('api/products/getAllProducts', variables)
       .then(res => {
         if (res.data.success) {
@@ -59,13 +53,15 @@ function App() {
         }
       })
       .catch(err => console.log(err))
-  }
+
+  }, [renderProps,dispatch])
+
 
 
   return (
     <div className="App">
       <AppNavbar />
-      <Route path='/' exact render={() => <LandingPage getAllProducts={getAllProducts} />} />
+      <Route path='/' exact render={() => <LandingPage />} />
       <Route path='/register' render={() => <Register />} />
       <Route path='/login' render={() => <Login />} />
       <Route path='/upload' component={Auth(UploadProduct)} />

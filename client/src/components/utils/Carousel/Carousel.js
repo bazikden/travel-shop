@@ -46,15 +46,17 @@ export const Carousel = ({ items }) => {
         const elem = newPictures[0]
         newPictures.splice(0, 1)
         newPictures.push(elem)
-        picturesRef.current && setTimeout(() => {
+        if(picturesRef.current){
+         setTimeout(() => {
             picturesRef.current && picturesRef.current.classList.remove('moving')
-            setPictures(newPictures)
-        }, 1490)
+            picturesRef.current && setPictures(newPictures)
+            }, 1490)
+        }    
     }
 
     // Started if isRunning true
     useInterval(() => {
-        movePictures()
+        picturesRef.current ? movePictures() : setIsRunning(false)
     }, isRunning ? 2000 : null)
 
 

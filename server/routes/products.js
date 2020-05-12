@@ -31,24 +31,32 @@ router.post('/getAllProducts', (req, res) => {
   const sortBy = req.body.sortBy ? req.body.sortBy : null
   const limit = req.body.limit ? parseInt(req.body.limit) : 100
   const skip = parseInt(req.body.skip)
+  const searchValue = req.body.searchValue
 
   const filter = {}
-  // console.log(req.body.filter)
 
   req.body.filter.continent.length > 0 && (filter.continent = req.body.filter.continent)
+  if (req.body.filter.price.length === 1) { filter.price = { $gte: Number(req.body.filter.price[0]) } }
+  if (req.body.filter.price.length === 2) { filter.price = { $gte: Number(req.body.filter.price[0]), $lte: Number(req.body.filter.price[1]) } }
+  if (searchValue) {
+    Product.find(filter)
+      .find({ $text: { $search: searchValue } })
+      .populate('writer')
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      .then(products => res.json({ success: true, products }))
+      .catch(err => res.status(500).json({ err }))
+  } else {
+    Product.find(filter)
+      .populate('writer')
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      .then(products => res.json({ success: true, products }))
+      .catch(err => res.status(500).json({ err }))
+  }
 
-
-  if (req.body.filter.price.length === 1) { filter.price = { $gte:Number(req.body.filter.price[0]) } }
-  if (req.body.filter.price.length === 2) { filter.price = {$gte: Number(req.body.filter.price[0]) ,$lte:Number(req.body.filter.price[1])}}
-
-  console.log(filter)
-  Product.find(filter)
-    .populate('writer')
-    .sort([[sortBy,order]])
-    .skip(skip)
-    .limit(limit)
-    .then(products => res.json({ success: true, products }))
-    .catch(err => res.status(500).json({ err }))
 })
 
 router.post('/deleteImage', (req, res) => {

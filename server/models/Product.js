@@ -8,7 +8,7 @@ const ProductSchema = new Schema({
     },
     title: {
         type: String,
-        maxlength: 50
+        maxlength: 50,
     },
     desription: {
         type: String
@@ -22,8 +22,8 @@ const ProductSchema = new Schema({
         default: []
     },
     continent: {
-        type: String
-    },
+        type: String,
+     },
     sold: {
         type: Number,
         default: 0
@@ -33,5 +33,19 @@ const ProductSchema = new Schema({
         default: 0
     }
 }, { timestamps: true })
+
+ProductSchema.index({
+    title:'text',
+
+    desription:'text'
+},
+{
+    weights:{
+        title: 5,
+        desription:1
+    }
+}
+
+)
 
 module.exports = mongoose.model('Product', ProductSchema)
