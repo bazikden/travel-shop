@@ -5,8 +5,8 @@ export const validation =  (data,setErrors,setInvalid) => {
     if (data.title === '') {
         findedErrors.title ='Enter the name' 
         invalidFields.title = true 
-    } else if (data.title.length < 6) {
-        findedErrors.title = 'Must be min  6 symbols' 
+    } else if (data.title.length < 4) {
+        findedErrors.title = 'Must be min  4 symbols' 
         invalidFields.title = true
     }else{
         delete findedErrors.title 

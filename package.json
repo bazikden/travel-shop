@@ -17,7 +17,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.10",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "react-touch-events": "^2.1.0"
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {

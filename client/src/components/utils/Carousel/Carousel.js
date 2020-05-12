@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
+import ReactTouchEvents from "react-touch-events"
 
 import {useInterval} from './utils/useInterval'
 import './Carousel.css'
 import { CarouselItem } from './CarouselItem'
 
-let position = -300
+
 
 const styles = {
     carouselContainer: {
-        width: '300px',
+        width: '280px',
         height: '210px',
-        border: '1px solid black',
+        borderRadius: '4px',
         boxSizing: 'border-box',
         zIndex: 100,
         margin: '0 auto',
@@ -20,28 +21,9 @@ const styles = {
 
 }
 
-const containerWidth = styles.carouselContainer.width.replace(/px/, '')
-const containerHeight = styles.carouselContainer.height.replace(/px/, '')
+const containerWidth = Number(styles.carouselContainer.width.replace(/px/, ''))
+const containerHeight = Number(styles.carouselContainer.height.replace(/px/, ''))
 
-// function useInterval(callback, delay) {
-//     const savedCallback = useRef();
-
-//     // Remember the latest callback.
-//     useEffect(() => {
-//         savedCallback.current = callback;
-//     }, [callback]);
-
-//     // Set up the interval.
-//     useEffect(() => {
-//         function move() {
-//             savedCallback.current();
-//         }
-//         if (delay !== null) {
-//             let id = setInterval(move, delay);
-//             return () => clearInterval(id);
-//         }
-//     }, [delay]);
-// }
 
 
 
@@ -64,10 +46,10 @@ export const Carousel = ({ items }) => {
         const elem = newPictures[0]
         newPictures.splice(0, 1)
         newPictures.push(elem)
-        setTimeout(() => {
-            picturesRef.current.classList.remove('moving')
+        picturesRef.current && setTimeout(() => {
+            picturesRef.current && picturesRef.current.classList.remove('moving')
             setPictures(newPictures)
-        }, 1000)
+        }, 1490)
     }
 
     // Started if isRunning true
@@ -77,7 +59,7 @@ export const Carousel = ({ items }) => {
 
 
     const onMouseEnter = () => {
-        movePictures()
+        setTimeout(()=>{movePictures()},1000)
         setIsRunning(true)
 
     }
@@ -89,23 +71,29 @@ export const Carousel = ({ items }) => {
     return (
         <div
             style={styles.carouselContainer}
-            onClick={movePictures}
 
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
-            <div className="picture-container" ref={picturesRef} >
-                {
-                    pictures.map((elem, i) => (
-                        <CarouselItem
-                            key={elem + i}
-                            src={elem}
-                            width={containerWidth - 2 * styles.carouselContainer.border.trim()[0]}
-                            height={containerHeight - 2 * styles.carouselContainer.border.trim()[0]}
-                        />
-                    ))
-                }
-            </div>
+            <ReactTouchEvents onTap={()=>{
+                isRunning? setIsRunning(false): onMouseEnter()
+            }}>
+                <div className="picture-container" ref={picturesRef} >
+                    {
+                        pictures.map((elem, i) => (
+                            <CarouselItem
+                                key={elem + i}
+                                src={elem}
+                                width={(containerWidth) + 1 + 'px'}
+                                height={containerHeight + 1 + 'px'}
+                            />
+                                
+
+                        ))
+                    }
+                </div>
+            </ReactTouchEvents>
+
 
         </div>
     )

@@ -2,10 +2,10 @@
     display: flex;
     padding: 0 2px;
     z-index: -1;
-    transform: translateX(-300px);
+    transform: translateX(-283px);
   }
   
   .moving {
-    transform: translateX(-600px);
-    transition: transform 1s ease-in;
+    transform: translateX(-566px);
+    transition: transform 1.5s ease-in;
   }

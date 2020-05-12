@@ -40,6 +40,15 @@ code {
   font-size: 40px;
 }
 
+.card-container .filter-panel .continent-filter,
+.card-container .filter-panel .price-filter {
+  width: 30%;
+}
+
+.card-container .filter-panel .search-product{
+  width: 30%;
+}
+
 
 
 @media (max-width: 768px){
@@ -49,5 +58,14 @@ code {
   }
   .divider{
     display: none;
+  }
+  .card-container .filter-panel {
+    flex-wrap: wrap;
+  }
+
+.card-container .filter-panel .search-product,
+
+.card-container .filter-panel .btn-group {
+    width: 100%;
   }
 }

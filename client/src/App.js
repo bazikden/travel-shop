@@ -2,17 +2,19 @@ import React, { useEffect } from 'react';
 import AppNavbar from './components/Navbar';
 import { Route } from 'react-router';
 import Axios from 'axios';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { AUTH, LOGIN, GET_ALL_PRODUCTS } from './redux/reducers/types'
 import { UploadProduct } from './components/UplaodProduct';
 import { Auth } from './hoc/auth';
-import { LandingPage } from './components/LandingPage';
+import { LandingPage } from './components/LandingPage/LandingPage';
 
 
 function App() {
   const dispatch = useDispatch()
+  const renderProps = useSelector(state => state.products.renderProps)
+  // const filter = renderProps.filter
 
   useEffect(() => {
     Axios.get('api/users/auth')
@@ -37,21 +39,33 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    Axios.get('api/products/getAllProducts')
+    const variables = { 
+      skip:renderProps.skip,
+      limit:renderProps.limit,
+      filter:renderProps.filter
+    }
+    // console.log(renderProps.filter)
+    getAllProducts(variables)
+  }, [renderProps,getAllProducts])
+
+
+  function getAllProducts (variables){
+    Axios.post('api/products/getAllProducts', variables)
       .then(res => {
         if (res.data.success) {
-          // console.log(res.data)
           dispatch({ type: GET_ALL_PRODUCTS, payload: res.data.products })
         } else {
           alert('Failed to load Products from Databasw')
         }
       })
       .catch(err => console.log(err))
-  }, [])
+  }
+
+
   return (
     <div className="App">
       <AppNavbar />
-      <Route path='/' exact render={() => <LandingPage />} />
+      <Route path='/' exact render={() => <LandingPage getAllProducts={getAllProducts} />} />
       <Route path='/register' render={() => <Register />} />
       <Route path='/login' render={() => <Login />} />
       <Route path='/upload' component={Auth(UploadProduct)} />

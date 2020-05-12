@@ -10,19 +10,11 @@ import { FileUpload } from './utils/FileUpload'
 import { ADD_PRODUCT } from '../redux/reducers/types';
 
 
-const Continents = [
-    { key: 1, value: "Africa" },
-    { key: 2, value: "Europe" },
-    { key: 3, value: "Asia" },
-    { key: 4, value: "North America" },
-    { key: 5, value: "South America" },
-    { key: 6, value: "Australia" },
-    { key: 7, value: "Antarctica" }
-]
 
 
 export const UploadProduct = () => {
     const user = useSelector(state => state.user)
+    const Continents = useSelector(state => state.products.continents)
     const history = useHistory()
     const dispatch = useDispatch()
 
@@ -30,7 +22,7 @@ export const UploadProduct = () => {
         title: '',
         description: '',
         price: 0,
-        country: 1,
+        continent: 1,
         images:[]
     })
     const [errors, setErrors] = useState({})
@@ -54,10 +46,10 @@ export const UploadProduct = () => {
 
 
         if(validationCheck){
-            console.log('oK')
+
             const formData = {
                 ...data,
-                country: Continents.find(f => f.key === Number(data.country)).value,
+                continent: Continents.find(f => f.key === Number(data.continent)).value,
                 writer: user.userData.id 
             }
             
@@ -105,7 +97,7 @@ export const UploadProduct = () => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Input onChange={onChange} type="select" name="country" defaultValue={Continents[0].key} >
+                    <Input onChange={onChange} type="select" name="continent" defaultValue={Continents[0].key} >
                         {
                             Continents.map(continent => (
                                 <option key={continent.key} value={continent.key}>{continent.value}</option>

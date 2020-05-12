@@ -14,9 +14,8 @@ router.post('/uploadImage', auth, (req, res) => {
 
 // Add new Product
 router.post('/uploadProduct', auth, (req, res) => {
+  const { writer, title, description, price, continent, images } = req.body
   console.log(req.body)
-  const { writer, title, description, price, country, images } = req.body
-
   const product = new Product(req.body)
   product
     .populate('writer')
@@ -27,18 +26,35 @@ router.post('/uploadProduct', auth, (req, res) => {
 
 
 // Get all Products
-router.get('/getAllProducts', (req, res) => {
-  Product.find()
+router.post('/getAllProducts', (req, res) => {
+  const order = req.body.order ? req.body.order : "desc"
+  const sortBy = req.body.sortBy ? req.body.sortBy : null
+  const limit = req.body.limit ? parseInt(req.body.limit) : 100
+  const skip = parseInt(req.body.skip)
+
+  const filter = {}
+  // console.log(req.body.filter)
+
+  req.body.filter.continent.length > 0 && (filter.continent = req.body.filter.continent)
+
+
+  if (req.body.filter.price.length === 1) { filter.price = { $gte:Number(req.body.filter.price[0]) } }
+  if (req.body.filter.price.length === 2) { filter.price = {$gte: Number(req.body.filter.price[0]) ,$lte:Number(req.body.filter.price[1])}}
+
+  console.log(filter)
+  Product.find(filter)
     .populate('writer')
+    .sort([[sortBy,order]])
+    .skip(skip)
+    .limit(limit)
     .then(products => res.json({ success: true, products }))
     .catch(err => res.status(500).json({ err }))
 })
 
 router.post('/deleteImage', (req, res) => {
-  console.log(req.body)
-  fs.unlink(req.body.image,(err)=>{
-    if(err) return  res.json({ success: false, err })
-    res.json({ success: true })  
+  fs.unlink(req.body.image, (err) => {
+    if (err) return res.json({ success: false, err })
+    res.json({ success: true })
   })
 
 })

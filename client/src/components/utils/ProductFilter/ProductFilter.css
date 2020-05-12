@@ -1,0 +1,58 @@
+.dropdown{
+    width: 30%;
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    
+}
+
+.dropdown .dropdown-header {
+    font-size: 14px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    z-index: -1;
+}
+.dropdown span {
+    float: right;
+    font-size: 25px;
+    height: 10px;
+}
+.dropdown-body{
+    box-sizing: border-box;
+    position: relative;
+    max-height: 0;
+    top: -2px;
+    border: 1px solid grey;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    z-index: 100000;
+    overflow: hidden;
+    transition:  1s ease-in;
+}
+.dropdown-body ul{
+    padding: 0 20px;
+}
+
+.dropdown-body.product-filter-opened {
+    transition:  1s ease-in-out;
+    max-height: 300px;
+    padding-top: 20px;
+
+}
+.dropdown-body ul{
+    list-style: none;
+}
+
+@media (max-width:768px){
+   .dropdown {
+       width: 48%;
+       margin-bottom: 20px;
+   } 
+}
+
+@media (max-width:425px){
+   .dropdown {
+       width: 100%;
+       /* margin-bottom: 20px; */
+   } 
+}
