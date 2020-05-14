@@ -31,10 +31,8 @@ export const Login = () => {
             .then(res => {
                 if (res.data.success) {
                     dispatch({ type: LOGIN, payload: res.data.success })
-                    console.log('login')
                     axios.get('api/users/auth')
                         .then(res => {
-                            console.log('auth')
                             if (res.data.success) {
                                 const user = res.data.user
                                 dispatch({

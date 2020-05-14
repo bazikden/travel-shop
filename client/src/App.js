@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux'
 import { Register } from './components/Register';
 import { Login } from './components/Login';
-import { AUTH, LOGIN, GET_ALL_PRODUCTS } from './redux/reducers/types'
+import { AUTH, LOGIN, GET_ALL_PRODUCTS, SET_LOADING } from './redux/reducers/types'
 import { UploadProduct } from './components/UplaodProduct';
 import { Auth } from './hoc/auth';
 import { LandingPage } from './components/LandingPage/LandingPage';
@@ -43,10 +43,12 @@ function App() {
       limit: renderProps.limit,
       filter: renderProps.filter
     }
-
+    dispatch({type:SET_LOADING,payload:true})
     Axios.post('api/products/getAllProducts', variables)
       .then(res => {
         if (res.data.success) {
+          dispatch({type:SET_LOADING,payload:false})
+
           dispatch({ type: GET_ALL_PRODUCTS, payload: res.data.products })
         } else {
           alert('Failed to load Products from Databasw')

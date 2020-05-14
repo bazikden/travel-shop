@@ -33,12 +33,12 @@ const AppNavbar = (props) => {
   }
 
   return (
-    <div>
+    <div className="app-navbar">
       <Navbar className="fixed-top" color="light" light expand="md">
         <NavbarBrand style={{padding:0}} href="/"><img style={{width:'70px',height:'40px'}} src={logo} alt="Logo"/></NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="d-flex w-100" navbar>
+          <Nav style={{width:'98%'}} className="d-flex" navbar>
             <NavItem className="p-2 mr-auto">
               <NavLink to="">Home</NavLink>
             </NavItem>

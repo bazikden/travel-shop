@@ -41,17 +41,20 @@ export const Carousel = ({ items }) => {
 
 
     const movePictures = () => {
-        picturesRef.current.classList.add('moving')
-        const newPictures = [...pictures]
-        const elem = newPictures[0]
-        newPictures.splice(0, 1)
-        newPictures.push(elem)
         if(picturesRef.current){
-         setTimeout(() => {
-            picturesRef.current && picturesRef.current.classList.remove('moving')
-            picturesRef.current && setPictures(newPictures)
-            }, 1490)
-        }    
+            picturesRef.current.classList.add('moving')
+            const newPictures = [...pictures]
+            const elem = newPictures[0]
+            newPictures.splice(0, 1)
+            newPictures.push(elem)
+            if(picturesRef.current){
+             setTimeout(() => {
+                picturesRef.current && picturesRef.current.classList.remove('moving')
+                picturesRef.current && setPictures(newPictures)
+                }, 1490)
+            } 
+        }
+   
     }
 
     // Started if isRunning true

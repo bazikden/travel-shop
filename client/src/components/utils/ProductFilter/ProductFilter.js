@@ -26,19 +26,5 @@ export const ProductFilter = ({ items, title, Component }) => {
                 <Component items={items} />
             </div>
         </div>
-
-        // <ButtonDropdown className="flex-grow-1 mx-2" isOpen={dropdownOpen} toggle={toggle}>
-        //     <DropdownToggle color="light" caret >
-        //         <span style={{ width: '98%' }} className="float-left text-left">{title}</span>
-        //     </DropdownToggle>
-        //     <DropdownMenu onMouseLeave={() => setOpen(false)} style={{ background: 'rgba(255,255,255,.5)' }} className="w-100">
-        //         {
-        //             items.map(item => (
-        //                 <DropdownItem key={item.value + Date.now()}>{item.value}</DropdownItem>
-        //             ))
-        //         }
-
-        //     </DropdownMenu>
-        // </ButtonDropdown>
     )
 }

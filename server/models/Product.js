@@ -10,7 +10,7 @@ const ProductSchema = new Schema({
         type: String,
         maxlength: 50,
     },
-    desription: {
+    description: {
         type: String
     },
     price: {
@@ -36,13 +36,12 @@ const ProductSchema = new Schema({
 
 ProductSchema.index({
     title:'text',
-
-    desription:'text'
+    description:'text'
 },
 {
     weights:{
         title: 5,
-        desription:1
+        description:1
     }
 }
 
