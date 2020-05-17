@@ -2,21 +2,22 @@ import React, { useEffect } from 'react';
 import AppNavbar from './components/Navbar';
 import { Route } from 'react-router';
 import Axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Register } from './components/Register';
 import { Login } from './components/Login';
-import { AUTH, LOGIN, GET_ALL_PRODUCTS, SET_LOADING } from './redux/reducers/types'
+import { AUTH, LOGIN, SET_PRODUCTS_COUNT,SET_LOADING } from './redux/reducers/types'
 import { UploadProduct } from './components/UplaodProduct';
 import { Auth } from './hoc/auth';
 import { LandingPage } from './components/LandingPage/LandingPage';
+import { DetailProductPage } from './components/DetailProductPage/DetailProductPage';
+import {Cart} from './components/Cart/Cart'
 
 
 function App() {
   const dispatch = useDispatch()
-  const renderProps = useSelector(state => state.products.renderProps)
 
   useEffect(() => {
-    Axios.get('api/users/auth')
+    document.cookie && Axios.get('api/users/auth')
       .then(res => {
         if (res.data.success) {
           const user = res.data.user
@@ -35,28 +36,24 @@ function App() {
       })
       .catch(err => console.log(err))
 
+      dispatch({ type: SET_LOADING, payload: true })
+      Axios.post('http://localhost:5000/api/products/getAllProducts')
+        .then(res => {
+            console.log('App')
+            if (res.data.success) {
+              dispatch({ type: SET_LOADING, payload: false })
+              dispatch({type:SET_PRODUCTS_COUNT,payload:res.data.products.length})
+
+            } else {
+                alert('Failed to load data')
+                dispatch({ type: SET_LOADING, payload: false })
+            }
+        })
+        .catch(err => console.log('Server error', err))
+
   }, [dispatch])
 
-  useEffect(() => {
-    const variables = {
-      skip: renderProps.skip,
-      limit: renderProps.limit,
-      filter: renderProps.filter
-    }
-    dispatch({type:SET_LOADING,payload:true})
-    Axios.post('api/products/getAllProducts', variables)
-      .then(res => {
-        if (res.data.success) {
-          dispatch({type:SET_LOADING,payload:false})
 
-          dispatch({ type: GET_ALL_PRODUCTS, payload: res.data.products })
-        } else {
-          alert('Failed to load Products from Databasw')
-        }
-      })
-      .catch(err => console.log(err))
-
-  }, [renderProps,dispatch])
 
 
 
@@ -67,6 +64,8 @@ function App() {
       <Route path='/register' render={() => <Register />} />
       <Route path='/login' render={() => <Login />} />
       <Route path='/upload' component={Auth(UploadProduct)} />
+      <Route path='/cart' component={Auth(Cart)} />
+      <Route exact path='/products/:productId' render={() => <DetailProductPage />} />
     </div>
   );
 }

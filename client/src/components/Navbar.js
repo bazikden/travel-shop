@@ -42,9 +42,6 @@ const AppNavbar = (props) => {
             <NavItem className="p-2 mr-auto">
               <NavLink to="">Home</NavLink>
             </NavItem>
-            {/* <NavItem className="mr-auto p-2">
-              <NavLink to=""></NavLink>
-            </NavItem> */}
 
             {
               user.loginSuccess ?

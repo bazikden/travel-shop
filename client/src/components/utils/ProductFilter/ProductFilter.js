@@ -23,7 +23,7 @@ export const ProductFilter = ({ items, title, Component }) => {
         <div onMouseLeave={onMouseLeave} className="dropdown">
             <div onClick={toggle} className="dropdown-header">{title} <span>&#129171;</span></div>
             <div className="dropdown-body">
-                <Component items={items} />
+                <Component  items={items} />
             </div>
         </div>
     )

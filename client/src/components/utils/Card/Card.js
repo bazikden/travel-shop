@@ -1,8 +1,8 @@
 import React from 'react'
 import { Carousel } from '../Carousel/Carousel'
+import { NavLink } from 'react-router-dom'
 
 export const Card = ({product}) => {
-
     return(
         <div className="card">
             <div className="img-box">
@@ -20,7 +20,7 @@ export const Card = ({product}) => {
             <div className="content">
                 <h2>{product.title}</h2>
                 <span>Price: {product.price} $</span> 
-                <button className="card-detail-button">Details</button>
+                <NavLink to={`products/${product._id}`}><button className="card-detail-button">Details</button></NavLink>
             </div>
         </div>
 

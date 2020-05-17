@@ -35,13 +35,13 @@ const ProductSchema = new Schema({
 }, { timestamps: true })
 
 ProductSchema.index({
-    title:'text',
-    description:'text'
+    title:'text'
+    // description:'text'
 },
 {
     weights:{
-        title: 5,
-        description:1
+        title: 5
+
     }
 }
 

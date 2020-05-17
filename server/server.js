@@ -8,13 +8,13 @@ const {MONGO_URI} = require('./config/keys')
 const app = express()
 
 // Database connection
-mongoose.connect(MONGO_URI,{useNewUrlParser:true,useUnifiedTopology:true,useFindAndModify:true})
+mongoose.connect(MONGO_URI,{useNewUrlParser:true,useUnifiedTopology:true,useFindAndModify:true,useCreateIndex:true})
     .then(()=> console.log('DB connected'))
     .catch(err => console.log('Cannot connect to DB'))
 
 // Middleware
 app.use(express.json())
-// app.use(cors())
+app.use(cors())
 app.use(cookieParser())
 
 

@@ -1,9 +1,9 @@
-import { GET_ALL_PRODUCTS, ADD_PRODUCT, SHOW_MORE_PRODUCTS, SET_CONTINENT_FILTER, SET_PRICE_FILTER, SET_LOADING } from "./types"
+import { GET_ALL_PRODUCTS, ADD_PRODUCT, SHOW_MORE_PRODUCTS, SET_CONTINENT_FILTER, SET_PRICE_FILTER, SET_LOADING, SET_PRODUCTS_COUNT } from "./types"
 
 const initialState = {
     products: [],
     isLoading: false,
-    filteredProducts: null,
+    productsCount:null,
     continents: [
         { key: 1, value: "Africa" },
         { key: 2, value: "Europe" },
@@ -27,7 +27,8 @@ const initialState = {
         filter: {
             continent: [],
             price: []
-        }
+        },
+        
     }
 }
 
@@ -66,6 +67,12 @@ export const productReducer = (state = initialState, action) => {
                 ...state,
                 renderProps: { ...state.renderProps, filter: { ...state.renderProps.filter, price: action.payload } }
             }
+
+        case SET_PRODUCTS_COUNT:
+            return {
+                ...state,
+                productsCount:action.payload
+            }    
 
         default: return state
 

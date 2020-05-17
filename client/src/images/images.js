@@ -1,3 +1,4 @@
 import upload from './upload.png'
 import logo from './Logo.jpg'
-export { upload, logo }
+import cart from './cart.jpg'
+export { upload, logo, cart }

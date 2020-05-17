@@ -16,6 +16,7 @@ export const RadioButtonBlock = ({ items }) => {
         setChecked(index)
     }
 
+
     return (
         <div>
             <ul>
@@ -28,7 +29,7 @@ export const RadioButtonBlock = ({ items }) => {
                                 type="radio"
                                 id={item.key + "radio"}
                                 name="price"
-                                checked={checked === (item.key - 1) ? true : false}
+                                checked={ checked === (item.key - 1) ? true : false}
                             />
                             <label className="ml-1 flex-grow-1" htmlFor={item.key + "radio"}>{item.value}</label>
                         </li>

@@ -22,12 +22,12 @@
     flex-direction: column;
     border-radius: 5px;
     box-shadow: 0 5px 202px rgba(0, 0, 0, .5);
-    transition:  height 0.7s ease-in-out;
+    transition:  height 1.2s ease-in-out;
 
 }
 
 .card-container .card:hover{
-    height: 320px;
+    height: 350px;
 }
 
 .card-container .card .img-box{
@@ -58,7 +58,7 @@
     color: #111;
     visibility: hidden;
     opacity: 0;
-    transition: 0.5 ease-in-out;
+    /* transition: 0.5 ease-in-out; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,6 +88,6 @@
     visibility: visible;
     opacity: 1;
     margin-top: -60px;
-    transition-delay: 0.8s; 
+    transition-delay: 1.2s; 
 }
 

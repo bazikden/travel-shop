@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router'
+import { Login } from '../components/Login'
 
 
 export const Auth = (Component) => {
 
     function AuthCheck(props) {
-        const history = useHistory()
 
         const user = useSelector(state => state.user)
-        useEffect(() => {
-            user.loginSuccess === false && history.push('/login')
-        }, [user, history])
 
+
+            if(!user.loginSuccess|| user.loginSuccess === false) return <Login />
         return <Component {...props} />
 
     }

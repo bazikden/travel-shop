@@ -4,7 +4,7 @@ const Product = require('../models/Product')
 const upload = require('../middleware/storage')
 const fs = require('fs')
 
-
+// Upload image to the server
 router.post('/uploadImage', auth, (req, res) => {
   upload(req, res, err => {
     if (err) return res.json({ success: false, err })
@@ -12,10 +12,18 @@ router.post('/uploadImage', auth, (req, res) => {
   })
 })
 
+// Delete image from server
+router.post('/deleteImage', (req, res) => {
+  fs.unlink(req.body.image, (err) => {
+    if (err) return res.json({ success: false, err })
+    res.json({ success: true })
+  })
+
+})
+
 // Add new Product
 router.post('/uploadProduct', auth, (req, res) => {
   const { writer, title, description, price, continent, images } = req.body
-  console.log(req.body)
   const product = new Product(req.body)
   product
     .populate('writer')
@@ -32,12 +40,15 @@ router.post('/getAllProducts', (req, res) => {
   const limit = req.body.limit ? parseInt(req.body.limit) : 100
   const skip = parseInt(req.body.skip)
   const searchValue = req.body.searchValue
+  console.log(searchValue)
 
   const filter = {}
+  if(req.body.filter){
+    req.body.filter.continent.length > 0 && (filter.continent = req.body.filter.continent)
+    if (req.body.filter.price.length === 1) { filter.price = { $gte: Number(req.body.filter.price[0]) } }
+    if (req.body.filter.price.length === 2) { filter.price = { $gte: Number(req.body.filter.price[0]), $lte: Number(req.body.filter.price[1]) } }
+  }
 
-  req.body.filter.continent.length > 0 && (filter.continent = req.body.filter.continent)
-  if (req.body.filter.price.length === 1) { filter.price = { $gte: Number(req.body.filter.price[0]) } }
-  if (req.body.filter.price.length === 2) { filter.price = { $gte: Number(req.body.filter.price[0]), $lte: Number(req.body.filter.price[1]) } }
   if (searchValue) {
     Product.find(filter)
       .find({ $text: { $search: searchValue } })
@@ -59,12 +70,16 @@ router.post('/getAllProducts', (req, res) => {
 
 })
 
-router.post('/deleteImage', (req, res) => {
-  fs.unlink(req.body.image, (err) => {
-    if (err) return res.json({ success: false, err })
-    res.json({ success: true })
-  })
+// Get product detail page
+router.get('/getProductById',(req,res) => {
 
+  if(req.query.type === 'array'){ console.log('array')}
+
+  Product.findOne({"_id":req.query.id})
+    .populate('writer')
+    .then(product =>  res.json({ success: true, product }))
+    .catch(err => res.status(500).json({ err }))
 })
+
 
 module.exports = router
